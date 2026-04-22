@@ -8,30 +8,24 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
 <style>
-/* --- BASE STYLES (from image_0.png) --- */
 body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
     background: black;
     color: white;
     overflow-x: hidden;
-    position: relative;
-    width: 100vw;
-    height: 100vh;
 }
 
-/* STAR BACKGROUND (from image_0.png) */
+/* STAR BACKGROUND */
 #stars-canvas {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
     z-index: 1;
     pointer-events: none;
 }
 
-/* LOCK SCREEN (from image_0.png) */
+/* LOCK SCREEN - Highest Z-Index to ensure it works */
 #lock-screen {
     position: fixed;
     width: 100%;
@@ -41,20 +35,8 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    z-index: 100; /* Must be top layer */
+    z-index: 9999; 
     transition: opacity 1s;
-}
-
-#lock-screen h2 {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
-    color: white;
-}
-
-#lock-screen small {
-    display: block;
-    margin-top: 10px;
-    font-weight: 300;
 }
 
 #pass-input {
@@ -75,26 +57,16 @@ body {
     color: white;
     cursor: pointer;
     font-weight: bold;
-    font-size: 16px;
-    transition: transform 0.2s;
 }
 
-#unlock-btn:hover {
-    transform: scale(1.05);
-}
-
-
-/* --- MAIN CONTENT (Modified structure) --- */
+/* MAIN CONTAINER */
 #main-container {
-    display: none; /* Hidden by default */
+    display: none;
     position: relative;
-    z-index: 5;
-    width: 100%;
-    height: 100%;
+    z-index: 10;
 }
 
-
-/* --- CAKE SCREEN (NEW) --- */
+/* CAKE SCREEN */
 #cake-screen {
     position: fixed;
     top: 0;
@@ -105,310 +77,111 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: transparent; /* Changed for fireworks behind */
-    z-index: 50;
-    transition: opacity 1s, visibility 1s;
-    pointer-events: auto; /* Re-enable for cake interaction */
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1s;
 }
 
-/* CAKECONTAINER */
 .cake-container {
     position: relative;
     width: 250px;
-    height: 350px;
+    height: 300px;
     display: flex;
     flex-direction: column-reverse;
-    justify-content: flex-start;
     align-items: center;
-    margin-top: 20px;
 }
 
-/* CAKE LAYERS */
 .layer {
     position: absolute;
-    width: 200px;
-    height: 60px;
-    background-color: #ffdde1; /* Pale Pink */
+    background-color: #ffdde1;
     border-radius: 20px 20px 10px 10px;
-    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
     border: 3px solid #ff4d6d;
     transition: transform 1s ease-out, opacity 1s;
 }
 
-.layer::after {
-    content: "";
-    position: absolute;
-    top: -10px;
-    left: 20px;
-    width: 160px;
-    height: 15px;
-    background: white; /* Frosting drip */
-    border-radius: 20px;
-    box-shadow: 0 3px 5px rgba(0,0,0,0.1);
-}
+.layer-bottom { bottom: 0; width: 220px; height: 80px; z-index: 10; }
+.layer-middle { bottom: 80px; width: 170px; height: 70px; z-index: 20; }
+.layer-top { bottom: 150px; width: 120px; height: 60px; z-index: 30; }
 
-.layer-bottom { bottom: 20px; width: 220px; height: 80px; z-index: 10; }
-.layer-bottom::after { width: 180px; left: 20px; }
-
-.layer-middle { bottom: 100px; width: 170px; height: 70px; z-index: 20; }
-.layer-middle::after { width: 130px; left: 20px; }
-
-.layer-top { bottom: 170px; width: 120px; height: 60px; z-index: 30; }
-.layer-top::after { width: 80px; left: 20px; }
-
-
-/* CANDLES */
 .candle {
     position: absolute;
-    width: 10px;
+    width: 8px;
     height: 40px;
-    background: repeating-linear-gradient(
-        45deg,
-        #ffdde1,
-        #ffdde1 5px,
-        #ff4d6d 5px,
-        #ff4d6d 10px
-    );
-    border-radius: 3px;
+    background: repeating-linear-gradient(45deg, #ffdde1, #ffdde1 5px, #ff4d6d 5px, #ff4d6d 10px);
+    top: 110px;
     z-index: 40;
 }
+.c1 { left: 80px; } .c2 { left: 115px; } .c3 { left: 150px; }
 
-.candle-1 { top: 120px; left: 80px; }
-.candle-2 { top: 120px; left: 115px; }
-.candle-3 { top: 120px; left: 150px; }
-
-/* FLAMES */
 .flame {
     position: absolute;
     top: -15px;
-    left: -2px;
+    left: -3px;
     width: 14px;
     height: 20px;
     background: radial-gradient(#ffff00, #ff8800);
     border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-    animation: flicker 1s infinite alternate;
-    opacity: 1;
-    transition: opacity 0.5s;
-}
-
-/* CUT KNIFE (NEW) */
-#cake-knife {
-    position: absolute;
-    width: 300px;
-    height: 10px;
-    background: #ccc;
-    border: 2px solid #333;
-    top: 50%;
-    left: -320px; /* Initially off screen to the left */
-    z-index: 100;
-    border-radius: 5px;
-    transition: left 0.5s ease-out;
-}
-
-#cake-knife::after {
-    content: "";
-    position: absolute;
-    right: -20px;
-    top: -5px;
-    width: 40px;
-    height: 20px;
-    background: #666;
-    border-radius: 5px;
-}
-
-
-/* CAKE INTERACTION ANIMATIONS (NEW) */
-.cake-container.candles-blown .flame {
-    opacity: 0;
-}
-
-.cake-container.cake-cut .layer-top { transform: translateY(-50px) rotate(-3deg); opacity: 0.8; }
-.cake-container.cake-cut .layer-middle { transform: translateY(-20px) rotate(2deg); opacity: 0.9; }
-.cake-container.cake-cut #cake-knife { left: -25px; } /* Animate knife in */
-
-
-/* CAKE BUTTONS (NEW) */
-.cake-btn-container {
-    margin-top: 30px;
-    display: flex;
-    gap: 15px;
-}
-
-.cake-btn {
-    padding: 10px 25px;
-    border: none;
-    border-radius: 20px;
-    color: white;
-    font-weight: bold;
-    font-size: 16px;
-    cursor: pointer;
-    transition: transform 0.2s, background 0.2s;
-}
-
-.cake-btn:hover {
-    transform: scale(1.05);
-}
-
-#blow-btn {
-    background: #ff4d6d;
-}
-
-#cut-btn {
-    background: #ffc107; /* Amber for contrast */
-}
-
-
-/* --- FIREWORKS (NEW LAYER) --- */
-#fireworks-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 20; /* Between background stars and cake */
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.5s;
-}
-
-#fireworks-container.show {
-    opacity: 1;
-}
-
-#fireworks-canvas {
-    width: 100%;
-    height: 100%;
-}
-
-
-/* --- PAGE CONTENT (Modified from image_0.png structure) --- */
-#content-screen {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 100px;
-    padding-bottom: 50px;
-    text-align: center;
-    opacity: 0; /* Initially hidden */
-    transition: opacity 1.5s;
-    pointer-events: auto; /* Re-enable for scrolling and interaction */
-}
-
-/* CAKE INVITATION (NEW) */
-#cake-invite {
-    position: fixed;
-    top: 120px;
-    width: 100%;
-    text-align: center;
-    color: #ff4d6d;
-    font-weight: 700;
-    font-size: 1.5rem;
-    z-index: 45; /* Above background, but below cake screen interaction */
-    display: none; /* Controlled by script */
-    pointer-events: none;
-}
-
-
-/* ORIGINAL CONTENT STYLES (from image_0.png) */
-#content-screen h1 {
-    font-size: 32px;
-    margin-top: 20px;
-    padding: 0 20px;
-    word-break: break-word;
-    color: #ff4d6d;
-}
-
-.cake-intro { font-size: 20px; font-weight: 300; margin-bottom: 20px; padding: 0 20px; }
-
-/* Letter Message Box (from image_0.png) */
-.message-box {
-    white-space: pre-line;
-    line-height: 1.8;
-    font-size: 16px;
-    max-width: 800px;
-    margin: 30px auto;
-    padding: 0 25px;
-    text-align: left;
-    transition: opacity 1s;
-}
-
-/* Sections (from image_0.png) */
-.content-section {
-    margin-top: 100px;
-    opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 1s, transform 1s;
-    padding: 0 20px;
-}
-.content-section.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* SLIDESHOW (from image_0.png) */
-.slideshow-frame {
-    width: 85%;
-    max-width: 400px;
-    height: 500px; /* Force a height */
-    margin: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 15px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-}
-.slideshow-frame img {
-    width: 100%;
-    border-radius: 15px;
-    display: none;
-    transition: opacity 0.5s;
-}
-
-/* SECRET BUTTON (from image_0.png) */
-#hidden-msg {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    opacity: 0.3;
-    font-size: 12px;
-    cursor: pointer;
-    background: rgba(255,255,255,0.1);
-    padding: 5px;
-    border-radius: 5px;
-}
-#hidden-msg:hover {
-    opacity: 1;
-}
-
-/* HEARTS (from image_0.png) */
-.floating-heart {
-    position: fixed;
-    color: #ff4d6d;
-    z-index: 99;
-    user-select: none;
-    pointer-events: none;
-    animation: floatHeart 5s linear forwards;
-}
-
-@keyframes floatHeart {
-    0% { transform: translateY(110vh) scale(0); opacity: 0; }
-    10% { transform: translateY(90vh) scale(1); opacity: 1; }
-    90% { transform: translateY(10vh) scale(1.1); opacity: 1; }
-    100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+    animation: flicker 0.1s infinite alternate;
 }
 
 @keyframes flicker {
-    0% { transform: rotate(-1deg); opacity: 1; }
-    20% { transform: rotate(1deg); opacity: 0.9; }
-    40% { transform: rotate(-2deg); opacity: 1; }
-    60% { transform: rotate(2deg); opacity: 0.8; }
-    80% { transform: rotate(-1deg); opacity: 1; }
-    100% { transform: rotate(0deg); opacity: 1; }
+    to { transform: scale(1.1); opacity: 0.8; }
 }
 
+/* FIREWORKS LAYER */
+#fireworks-container {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 50;
+    pointer-events: none;
+    display: none;
+}
+
+/* MAIN CONTENT */
+#content-screen {
+    opacity: 0;
+    text-align: center;
+    padding: 100px 20px;
+    transition: opacity 1.5s;
+    z-index: 20;
+}
+
+.message {
+    white-space: pre-line;
+    line-height: 1.8;
+    font-size: 17px;
+    max-width: 800px;
+    margin: 30px auto;
+    text-align: left;
+}
+
+.slideshow img {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 15px;
+    display: none;
+    margin: auto;
+    box-shadow: 0 0 20px rgba(255, 77, 109, 0.3);
+}
+
+.heart {
+    position: fixed;
+    color: #ff4d6d;
+    z-index: 999;
+    pointer-events: none;
+    animation: float 5s linear forwards;
+}
+
+@keyframes float {
+    0% { transform: translateY(110vh) scale(0); opacity: 0; }
+    10% { transform: translateY(90vh) scale(1); opacity: 1; }
+    100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+}
+
+/* Cake Cutting Animation */
+.cake-cut .layer-top { transform: translate(-30px, -30px) rotate(-10deg); }
+.cake-cut .layer-middle { transform: translate(30px, -15px) rotate(10deg); }
 </style>
 </head>
 <body>
@@ -417,8 +190,7 @@ body {
 
 <div id="lock-screen">
     <h2>Enter Password ❤️</h2>
-    <input type="password" id="pass-input" placeholder="Password?">
-    <small>(Hint: 4 Letters, ends with 'VE')</small>
+    <input type="password" id="pass-input" placeholder="****">
     <button id="unlock-btn">Enter</button>
 </div>
 
@@ -429,78 +201,47 @@ body {
     </div>
 
     <div id="cake-screen">
-        <h2 style="font-weight: 700; color: #ffdde1; margin-bottom: 0;">Sakshee, my love...</h2>
+        <h2 style="color: #ffdde1;">Sakshee, make a wish...</h2>
         <div class="cake-container" id="celebration-cake">
-            <div id="cake-knife"></div>
-            
             <div class="layer layer-bottom"></div>
             <div class="layer layer-middle"></div>
             <div class="layer layer-top"></div>
-            
-            <div class="candle candle-1"><div class="flame"></div></div>
-            <div class="candle candle-2"><div class="flame"></div></div>
-            <div class="candle candle-3"><div class="flame"></div></div>
+            <div class="candle c1"><div class="flame"></div></div>
+            <div class="candle c2"><div class="flame"></div></div>
+            <div class="candle c3"><div class="flame"></div></div>
         </div>
-        
-        <p id="cake-instructions" style="font-size: 1.2rem; color: #ffdde1; max-width: 300px; margin-top: 15px;">You need to blow the candles... then cut the cake!</p>
-
-        <div class="cake-btn-container">
-            <button class="cake-btn" id="blow-btn">Tap to Blow 💨</button>
-            <button class="cake-btn" id="cut-btn" disabled>Tap to Cut 🔪</button>
+        <div style="margin-top: 50px;">
+            <button id="blow-btn" style="padding:12px 25px; border-radius:20px; border:none; background:#ff4d6d; color:white; font-weight:bold; cursor:pointer;">Blow Candles 💨</button>
+            <button id="cut-btn" style="padding:12px 25px; border-radius:20px; border:none; background:#ffc107; color:white; font-weight:bold; cursor:pointer; display:none;">Cut Cake 🔪</button>
         </div>
     </div>
 
-    <div id="cake-invite">Hold on! Before we start...</div>
-
     <div id="content-screen">
-        
-        <div class="cake-intro">“Some people come quietly… and become everything.”</div>
-        
         <h1>Happy Birthday Sakshuu!!!💗💗</h1>
+        <div id="text" class="message"></div>
         
-        <div class="message-box" id="birthday-letter"></div>
-        
-        <div class="content-section">
+        <div style="margin-top:80px;">
             <h2>Our Moments 📸</h2>
-            <div class="slideshow-frame" id="slideshow">
-                <img src="https://i.postimg.cc/QxzpqtZK/Snapchat-679765657.jpg" alt="Moment 1" style="display: block; opacity: 1;">
-                <img src="https://via.placeholder.com/400x500?text=Moment+2" alt="Moment 2">
-                <img src="https://via.placeholder.com/400x500?text=Moment+3" alt="Moment 3">
+            <div class="slideshow" id="slideshow">
+                <img src="https://i.postimg.cc/QxzpqtZK/Snapchat-679765657.jpg" style="display: block;">
+                <img src="https://via.placeholder.com/400x500?text=Your+Photo+2">
+                <img src="https://via.placeholder.com/400x500?text=Your+Photo+3">
             </div>
         </div>
-        
-        <div class="content-section">
-            <h2>YOU HAVE ALWAYS BEEN A PART OF ME SAKSHEE!</h2>
-            <p>You hide your feelings… but I notice them all.💗🤧</p>
-        </div>
-        
-        <div class="content-section">
+
+        <div style="margin-top:80px;">
             <h2>One Thing I Want</h2>
             <p>Take care of yourself! Cause a smile looks pretty on YOU!😚🫶🏻✨</p>
         </div>
-        
-        <p style="margin-top: 100px; opacity: 0.6; padding-bottom: 50px;">Scroll till the end… I’m still here ❤️</p>
-        
-        <div id="hidden-msg">tap me</div>
     </div>
 
-    <audio id="music" loop>
-        <source src="Tum Ho Toh Movie Saiyaara.m4a" type="audio/mp4">
-    </audio>
-
-    <audio id="voice">
-        <source src="voice.mp3" type="audio/mp3">
-    </audio>
-    
-    <audio id="fireworks-sound">
-        <source src="fireworks.mp3" type="audio/mp3">
-    </audio>
-
+    <audio id="bg-music" loop><source src="Tum Ho Toh Movie Saiyaara.m4a" type="audio/mp4"></audio>
+    <audio id="voice"><source src="voice.mp3" type="audio/mp3"></audio>
+    <audio id="fireworks-sound"><source src="fireworks.mp3" type="audio/mp3"></audio>
 </div>
 
 <script>
-/* --- MESSAGE TEXT --- */
-const bdayLetter = `A VERYY VERYY HAPPY HAPPYY BIRTHDAY SAKSHEE!!!💕✨
+const msg = `A VERYY VERYY HAPPY HAPPYY BIRTHDAY SAKSHEE!!!💕✨
 
 May this year be full of happiness, caring, love and immense blessings!🫶🏻
 
@@ -527,14 +268,14 @@ I also know… somewhere in your mind, you doubt things. You wonder if I’ll st
 But let me tell you something clearly today—
 
 I don’t look at you like just another girl in my life.
-I don't talk to you like you're replaceable.
+I don’t talk to you like you’re replaceable.
 And I definitely don't feel for anyone the way I feel for you.
 
 For me, it’s YOU and only YOU SAKSHEE. It has been you.💗💗
 
 Out of everyone, you’re the one I choose to stay for, to care for, to give my time and energy to. Not because I have to… but because I genuinely want to.
 
-I’m not here for something temporary. I’m not here just for good conversations or timepass. I’m here because you matter to me in a way that’s rare, and I don’t take that lightly.
+I’m not here for something temporary. I’m not here just for good conversations or timepass. I’m here because you matter to me in a way that's rare, and I don’t take that lightly.
 
 At the same time, I don’t want you to feel pressured or forced to say anything back. But today… on your birthday… I do want one thing from you.
 
@@ -572,111 +313,136 @@ LOVEEEE YOUUUUUUUUUU!!!💗💗💗💗💗💗🫂🫂🫂
                        -Your Alien
                        -Your Senior🤧`;
 
-/* --- ELEMENTS --- */
-const lockScreen = document.getElementById("lock-screen");
-const passInput = document.getElementById("pass-input");
-const unlockBtn = document.getElementById("unlock-btn");
-const mainContainer = document.getElementById("main-container");
-const contentScreen = document.getElementById("content-screen");
-const letterBox = document.getElementById("birthday-letter");
-const heartSound = document.getElementById("voice");
-const mainMusic = document.getElementById("music");
-const fwSound = document.getElementById("fireworks-sound");
-
-// Cake Elements
-const cakeScreen = document.getElementById("cake-screen");
-const cakeContainer = document.getElementById("celebration-cake");
-const blowBtn = document.getElementById("blow-btn");
-const cutBtn = document.getElementById("cut-btn");
-const cakeInstructions = document.getElementById("cake-instructions");
-const cakeInvite = document.getElementById("cake-invite");
-
-// Fireworks Elements
-const fwContainer = document.getElementById("fireworks-container");
-const fwCanvas = document.getElementById("fireworks-canvas");
-const fwCtx = fwCanvas.getContext("2d");
-
-
-/* --- UNLOCK FUNCTION --- */
-unlockBtn.addEventListener("click", () => {
-    const password = passInput.value.trim().toUpperCase();
-    if (password === "LOVE") {
-        // Step 1: Hide lock screen
-        lockScreen.style.opacity = "0";
-        mainMusic.play().catch(e => console.log("Main music block handled")); // Play music early
-        
+// Unlock Logic
+document.getElementById("unlock-btn").addEventListener("click", () => {
+    const pass = document.getElementById("pass-input").value.toUpperCase();
+    if (pass === "LOVE") {
+        document.getElementById("lock-screen").style.opacity = "0";
         setTimeout(() => {
-            lockScreen.style.display = "none";
-            mainContainer.style.display = "block";
-            
-            // Step 2: Show invitation to the cake
-            cakeInvite.style.display = "block";
-            
-            // Step 3: Transition to the cake screen after the invitation
-            setTimeout(() => {
-                cakeInvite.style.display = "none";
-                cakeScreen.style.opacity = "1";
-                cakeScreen.style.visibility = "visible";
-                startHeartEffect(); // Start hearts when cake shows
-            }, 2500); // 2.5 seconds to read invite
-            
+            document.getElementById("lock-screen").style.display = "none";
+            document.getElementById("main-container").style.display = "block";
+            document.getElementById("cake-screen").style.opacity = "1";
+            document.getElementById("cake-screen").style.visibility = "visible";
+            document.getElementById("bg-music").play();
         }, 1000);
     } else {
-        alert("Wrong Password! Try again ❤️");
-        passInput.value = "";
+        alert("Wrong Password! Hint: 4 letters ending in VE");
     }
 });
 
-
-/* --- CAKE INTERACTION LOGIC --- */
-// 1. Blow Candles
-blowBtn.addEventListener("click", () => {
-    cakeContainer.classList.add("candles-blown");
-    blowBtn.disabled = true;
-    blowBtn.style.opacity = "0.5";
-    
-    cakeInstructions.innerText = "Beautiful! Now... cut the cake!";
-    cakeInstructions.style.color = "#ffc107"; // Update instructions
-    
-    cutBtn.disabled = false; // Enable Cut Button
-    cutBtn.style.opacity = "1";
+// Cake Logic
+document.getElementById("blow-btn").addEventListener("click", () => {
+    document.querySelectorAll(".flame").forEach(f => f.style.opacity = "0");
+    document.getElementById("blow-btn").style.display = "none";
+    document.getElementById("cut-btn").style.display = "inline-block";
 });
 
-// 2. Cut Cake
-cutBtn.addEventListener("click", () => {
-    cakeContainer.classList.add("cake-cut");
-    cutBtn.disabled = true;
-    cutBtn.style.opacity = "0.5";
-    blowBtn.style.display = "none"; // Remove unnecessary button
-    cakeInstructions.style.display = "none"; // Remove instructions
-    
-    // START THE CELEBRATION!
-    triggerFireworks celebration();
+document.getElementById("cut-btn").addEventListener("click", () => {
+    document.getElementById("celebration-cake").classList.add("cake-cut");
+    startCelebration();
 });
 
-// 3. Fireworks celebration()
-function triggerFireworkscelebration() {
-    // A. Show fireworks layer
-    fwCanvas.width = window.innerWidth;
-    fwCanvas.height = window.innerHeight;
-    fwContainer.classList.add("show");
-    fwSound.play().catch(e => console.log("FW sound block handled"));
-
-    // B. Activate fireworks effect on canvas
-    startFireworksAnimation();
+function startCelebration() {
+    document.getElementById("fireworks-container").style.display = "block";
+    document.getElementById("fireworks-sound").play();
+    initFireworks(); 
     
-    // C. Wait for 10 seconds of fireworks
+    // 10 Seconds of Fireworks
     setTimeout(() => {
-        fwContainer.classList.remove("show");
-        stopFireworksAnimation();
-        
-        // D. Fade out cake and show main content
-        cakeScreen.style.opacity = "0";
-        cakeScreen.style.visibility = "hidden";
-        
+        document.getElementById("fireworks-container").style.display = "none";
+        document.getElementById("cake-screen").style.opacity = "0";
         setTimeout(() => {
-            contentScreen.style.opacity = "1";
-            startMainSequence(); // Begin letter, slides, etc.
+            document.getElementById("cake-screen").style.display = "none";
+            document.getElementById("content-screen").style.opacity = "1";
+            typeText();
+            startHearts();
+            startSlideshow();
         }, 1000);
-        
-    },
+    }, 10000);
+}
+
+// Typing
+let n=0;
+function typeText(){
+    if(n < msg.length){
+        document.getElementById("text").innerHTML += msg.charAt(n);
+        n++;
+        setTimeout(typeText, 35);
+    } else {
+        document.getElementById("voice").play();
+    }
+}
+
+// Hearts
+function startHearts(){
+    setInterval(()=>{
+        let h = document.createElement("div");
+        h.innerHTML = "💗";
+        h.className = "heart";
+        h.style.left = Math.random() * 100 + "vw";
+        h.style.fontSize = (15 + Math.random() * 20) + "px";
+        document.body.appendChild(h);
+        setTimeout(() => h.remove(), 5000);
+    }, 400);
+}
+
+// Slideshow
+let s=0;
+function startSlideshow(){
+    let imgs = document.querySelectorAll("#slideshow img");
+    setInterval(() => {
+        imgs.forEach(i => i.style.display = "none");
+        s = (s + 1) % imgs.length;
+        imgs[s].style.display = "block";
+    }, 3000);
+}
+
+// Star BG
+const c = document.getElementById("stars-canvas");
+const ctx = c.getContext("2d");
+c.width = window.innerWidth; c.height = window.innerHeight;
+const stars = Array(150).fill().map(() => ({ x: Math.random()*c.width, y: Math.random()*c.height, r: Math.random()*1.5, o: Math.random() }));
+function drawStars() {
+    ctx.clearRect(0,0,c.width,c.height);
+    stars.forEach(s => {
+        ctx.fillStyle = `rgba(255,255,255,${Math.abs(Math.sin(s.o))})`;
+        s.o += 0.02;
+        ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2); ctx.fill();
+    });
+    requestAnimationFrame(drawStars);
+}
+drawStars();
+
+// Fireworks Canvas Logic
+const fc = document.getElementById("fireworks-canvas");
+const fctx = fc.getContext("2d");
+fc.width = window.innerWidth; fc.height = window.innerHeight;
+let particles = [];
+function initFireworks() {
+    function createP() {
+        if(particles.length > 200) return;
+        const x = Math.random() * fc.width;
+        const y = Math.random() * (fc.height/2);
+        const color = `hsl(${Math.random()*360}, 100%, 50%)`;
+        for(let i=0; i<30; i++) {
+            particles.push({x, y, vx:(Math.random()-0.5)*10, vy:(Math.random()-0.5)*10, color, life: 1});
+        }
+    }
+    function draw() {
+        fctx.fillStyle = "rgba(0,0,0,0.2)";
+        fctx.fillRect(0,0,fc.width,fc.height);
+        particles.forEach((p, i) => {
+            fctx.fillStyle = p.color;
+            fctx.globalAlpha = p.life;
+            fctx.beginPath(); fctx.arc(p.x, p.y, 2, 0, Math.PI*2); fctx.fill();
+            p.x += p.vx; p.y += p.vy; p.vy += 0.1; p.life -= 0.02;
+            if(p.life <= 0) particles.splice(i, 1);
+        });
+        if(Math.random() < 0.1) createP();
+        if(document.getElementById("fireworks-container").style.display === "block") requestAnimationFrame(draw);
+    }
+    draw();
+}
+</script>
+</body>
+</html>
