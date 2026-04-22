@@ -367,7 +367,7 @@ function typeText(){
     if(n < msg.length){
         document.getElementById("text").innerHTML += msg.charAt(n);
         n++;
-        setTimeout(typeText, 35);
+        setTimeout(typeText, 60);
     } else {
         document.getElementById("voice").play();
     }
