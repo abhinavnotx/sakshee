@@ -7,11 +7,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap" rel="stylesheet">
 
 <style>
-    .message {
-    white-space: pre-line;
-    line-height: 1.8;
-    font-size: 16px;
-    }
 body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
@@ -38,6 +33,7 @@ canvas {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    z-index: 10;
     transition: 1s;
 }
 
@@ -45,22 +41,26 @@ input {
     padding: 10px;
     border-radius: 8px;
     border: none;
+    text-align: center;
+    font-size: 16px;
 }
 
 button {
-    margin-top: 10px;
-    padding: 10px 20px;
+    margin-top: 15px;
+    padding: 10px 25px;
     border: none;
     border-radius: 10px;
     background: #ff4d6d;
     color: white;
     cursor: pointer;
+    font-weight: bold;
 }
 
 /* MAIN */
 #main {
     display: none;
     text-align: center;
+    padding-bottom: 50px;
 }
 
 /* INTRO */
@@ -69,29 +69,34 @@ button {
     font-size: 24px;
     opacity: 0;
     animation: fade 3s forwards;
+    padding: 0 20px;
 }
 
 /* TITLE */
 h1 {
     margin-top: 40px;
-    font-size: 42px;
+    font-size: 36px;
+    color: #ff4d6d;
 }
 
-/* TEXT */
-#text {
+/* MESSAGE BOX */
+.message {
+    white-space: pre-line; /* This preserves your line breaks */
+    line-height: 1.8;
+    font-size: 17px;
     max-width: 800px;
     margin: 30px auto;
-    line-height: 1.8;
-    font-size: 18px;
-    padding: 0 20px;
+    padding: 0 25px;
+    text-align: left; /* Reading long letters is easier left-aligned */
 }
 
 /* SECTIONS */
 .section {
-    margin-top: 80px;
+    margin-top: 100px;
     opacity: 0;
     transform: translateY(40px);
     transition: 1s;
+    padding: 0 20px;
 }
 .show {
     opacity: 1;
@@ -100,18 +105,18 @@ h1 {
 
 /* SLIDESHOW */
 .slideshow {
-    width: 80%;
-    max-width: 500px;
+    width: 85%;
+    max-width: 400px;
     margin: auto;
+    height: 500px; /* Set a height so it doesn't jump */
+    display: flex;
+    align-items: center;
 }
 .slideshow img {
     width: 100%;
     border-radius: 15px;
     display: none;
-    transition: 0.5s;
-}
-.slideshow img:hover {
-    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(255, 77, 109, 0.3);
 }
 
 /* SECRET BUTTON */
@@ -119,9 +124,12 @@ h1 {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    opacity: 0.2;
+    opacity: 0.3;
     font-size: 12px;
     cursor: pointer;
+    background: rgba(255,255,255,0.1);
+    padding: 5px;
+    border-radius: 5px;
 }
 #secret:hover {
     opacity: 1;
@@ -130,15 +138,18 @@ h1 {
 /* HEARTS */
 .heart {
     position: fixed;
-    color: red;
-    animation: float 5s linear infinite;
+    color: #ff4d6d;
+    z-index: 999;
+    user-select: none;
+    pointer-events: none;
+    animation: float 5s linear forwards;
 }
 @keyframes float {
-    0% {transform: translateY(100vh);}
-    100% {transform: translateY(-10vh);}
+    0% {transform: translateY(110vh) scale(0);}
+    10% {transform: translateY(90vh) scale(1);}
+    100% {transform: translateY(-10vh) scale(1.2);}
 }
 
-/* FADE */
 @keyframes fade {
     to {opacity: 1;}
 }
@@ -149,44 +160,41 @@ h1 {
 
 <canvas id="stars"></canvas>
 
-<!-- LOCK -->
 <div id="lock">
-    <h2>Enter Password ❤️(Hint : Letter - 4, ending with 'VE'</h2>
-    <input type="password" id="pass">
+    <h2 style="padding: 0 20px; text-align: center;">Enter Password ❤️<br><small style="font-size: 14px;">(Hint: 4 Letters, ending with 'VE')</small></h2>
+    <input type="password" id="pass" placeholder="****">
     <button onclick="unlock()">Enter</button>
 </div>
 
-<!-- MAIN -->
 <div id="main">
 
 <div id="intro">“Some people come quietly… and become everything.”</div>
 
 <h1>Happy Birthday Sakshuu!!!💗💗</h1>
 
-<div id="text"></div>
+<div id="text" class="message"></div>
 
 <div class="section">
     <h2>Our Moments 📸</h2>
     <div class="slideshow">
-        <img src="https://i.postimg.cc/QxzpqtZK/Snapchat-679765657.jpg"
-        <img src="phojpg">
-        <img src="photo3.jpg">
+        <img src="https://i.postimg.cc/QxzpqtZK/Snapchat-679765657.jpg" style="display: block;">
+        <img src="https://via.placeholder.com/400x500?text=Your+Photo+2">
+        <img src="https://via.placeholder.com/400x500?text=Your+Photo+3">
     </div>
 </div>
 
 <div class="section">
     <h2>YOU HAVE ALWAYS BEEN A PART OF ME SAKSHEE!</h2>
-    <p>You hide your feelings… but I notice them all.💗🤧</p>
+    <p>You hide your feelings… but I notice them all.💗</p>
 </div>
 
 <div class="section">
     <h2>One Thing I Want</h2>
-    <p>Take care of yourself! Cause smile looks pretty on YOU!😚🫶🏻✨</p>
+    <p>Take care of yourself! Because a smile looks pretty on YOU!😚🫶🏻✨</p>
 </div>
 
-<p style="margin-top:80px;opacity:0.6;">Scroll till the end… I’m still here ❤️</p>
+<p style="margin-top:80px; opacity:0.6; padding-bottom: 50px;">Scroll till the end… I’m still here ❤️</p>
 
-<!-- SECRET -->
 <div id="secret" onclick="secretMsg()">tap me</div>
 
 <audio id="music" loop>
@@ -200,34 +208,14 @@ h1 {
 </div>
 
 <script>
+/* MESSAGE TEXT */
+const msg = `A VERYY VERYY HAPPY HAPPYY BIRTHDAY SAKSHEE!!!💕✨
 
-/* UNLOCK */
-function unlock() {
-    if(document.getElementById("pass").value === "LOVE") {
-        document.getElementById("lock").style.opacity = "0";
-        setTimeout(()=>{
-            document.getElementById("lock").style.display="none";
-            document.getElementById("main").style.display="block";
-        },1000);
-
-        document.getElementById("music").play();
-        document.getElementById("voice").play();
-
-        typeText();
-        slide();
-        hearts();
-    }
-}
-
-/* MESSAGE */
-<p> A VERYY VERYY HAPPY HAPPYY BIRTHDAY SAKSHEE!!!💕✨</p>
-
-    <div class="message">
 May this year be full of happiness, caring, love and immense blessings!🫶🏻
 
 Hope soo, you remain as chunky, as cute and mine the whole life!!💫
 
-But, this time there something more than a birthday wish from my side to you..🤧
+But, this time there's something more than a birthday wish from my side to you..🤧
 
 I’ve been thinking a lot about what to say today… and honestly, no matter how many words I write, it still feels like it won’t be enough for you. Because what you mean to me isn’t something simple or small that can be wrapped in just a few lines.
 
@@ -249,13 +237,13 @@ But let me tell you something clearly today—
 
 I don’t look at you like just another girl in my life.
 I don’t talk to you like you’re replaceable.
-And I definitely don’t feel for anyone the way I feel for you.
+And I definitely don't feel for anyone the way I feel for you.
 
 For me, it’s YOU and only YOU SAKSHEE. It has been you.💗💗
 
 Out of everyone, you’re the one I choose to stay for, to care for, to give my time and energy to. Not because I have to… but because I genuinely want to.
 
-I’m not here for something temporary. I’m not here just for good conversations or timepass. I’m here because you matter to me in a way that’s rare, and I don’t take that lightly.
+I’m not here for something temporary. I’m not here just for good conversations or timepass. I’m here because you matter to me in a way that's rare, and I don’t take that lightly.
 
 At the same time, I don’t want you to feel pressured or forced to say anything back. But today… on your birthday… I do want one thing from you.
 
@@ -289,81 +277,108 @@ You really mean a lot to me… more than words can ever fully explain.
 
 LOVEEEE YOUUUUUUUUUU!!!💗💗💗💗💗💗🫂🫂🫂
 
-
-
                        -Your Pagal
                        -Your Alien
                        -Your Senior🤧`;
-  </div>                     
-let i=0;
-function typeText(){
-    if(i<msg.length){
-        document.getElementById("text").innerHTML+=msg.charAt(i);
-        i++;
-        setTimeout(typeText,20);
+
+/* UNLOCK */
+function unlock() {
+    if(document.getElementById("pass").value.toUpperCase() === "LOVE") {
+        document.getElementById("lock").style.opacity = "0";
+        setTimeout(()=>{
+            document.getElementById("lock").style.display="none";
+            document.getElementById("main").style.display="block";
+            // Start components
+            typeText();
+            slide();
+            hearts();
+        },1000);
+
+        // Music play (Note: Browsers might block this unless the user interacted)
+        document.getElementById("music").play().catch(e => console.log("Music blocked"));
+        document.getElementById("voice").play().catch(e => console.log("Voice blocked"));
+    } else {
+        alert("Wrong Password! Try again ❤️");
     }
 }
 
-/* SLIDES */
+/* TYPING EFFECT */
+let n=0;
+function typeText(){
+    if(n < msg.length){
+        document.getElementById("text").innerHTML += msg.charAt(n);
+        n++;
+        // Adjust typing speed here (lower = faster)
+        setTimeout(typeText, 35);
+    }
+}
+
+/* SLIDESHOW */
 let s=0;
 function slide(){
-    let imgs=document.querySelectorAll(".slideshow img");
-    imgs.forEach(i=>i.style.display="none");
+    let imgs = document.querySelectorAll(".slideshow img");
+    if(imgs.length === 0) return;
+    imgs.forEach(img => img.style.display = "none");
     s++;
-    if(s>imgs.length) s=1;
-    imgs[s-1].style.display="block";
-    setTimeout(slide,3000);
+    if(s > imgs.length) s = 1;
+    imgs[s-1].style.display = "block";
+    setTimeout(slide, 3000);
 }
 
-/* HEARTS */
+/* FLOATING HEARTS */
 function hearts(){
     setInterval(()=>{
-        let h=document.createElement("div");
-        h.innerHTML="❤️";
-        h.className="heart";
-        h.style.left=Math.random()*100+"vw";
-        h.style.fontSize=(10+Math.random()*20)+"px";
+        let h = document.createElement("div");
+        h.innerHTML = "❤️";
+        h.className = "heart";
+        h.style.left = Math.random() * 100 + "vw";
+        h.style.fontSize = (15 + Math.random() * 20) + "px";
         document.body.appendChild(h);
-        setTimeout(()=>h.remove(),5000);
-    },300);
+        setTimeout(() => h.remove(), 5000);
+    }, 400);
 }
 
-/* SECRET */
 function secretMsg(){
     alert("No matter what… I’m not going anywhere.");
 }
 
-/* SCROLL */
+/* SCROLL ANIMATION */
 window.addEventListener("scroll",()=>{
     document.querySelectorAll(".section").forEach(sec=>{
-        let pos=sec.getBoundingClientRect().top;
-        if(pos<window.innerHeight-100) sec.classList.add("show");
+        let pos = sec.getBoundingClientRect().top;
+        if(pos < window.innerHeight - 100) sec.classList.add("show");
     });
 });
 
-/* STARS */
-let c=document.getElementById("stars");
-let ctx=c.getContext("2d");
-c.width=window.innerWidth;
-c.height=window.innerHeight;
+/* STAR BACKGROUND */
+let canvas = document.getElementById("stars");
+let ctx = canvas.getContext("2d");
+function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+window.onresize = resize;
+resize();
 
-let stars=Array(120).fill().map(()=>({
-    x:Math.random()*c.width,
-    y:Math.random()*c.height,
-    r:Math.random()*2
+let starArray = Array(150).fill().map(()=>({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 1.5,
+    o: Math.random() // opacity for twinkling
 }));
 
 function draw(){
-    ctx.clearRect(0,0,c.width,c.height);
-    ctx.fillStyle="white";
-    stars.forEach(s=>{
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    starArray.forEach(star => {
+        ctx.fillStyle = `rgba(255, 255, 255, ${Math.abs(Math.sin(star.o))})`;
+        star.o += 0.02;
         ctx.beginPath();
-        ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+        ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
         ctx.fill();
     });
+    requestAnimationFrame(draw);
 }
-setInterval(draw,50);
-
+draw();
 </script>
 
 </body>
