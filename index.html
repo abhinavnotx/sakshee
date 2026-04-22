@@ -81,13 +81,13 @@ h1 {
 
 /* MESSAGE BOX */
 .message {
-    white-space: pre-line; /* This preserves your line breaks */
+    white-space: pre-line;
     line-height: 1.8;
     font-size: 17px;
     max-width: 800px;
     margin: 30px auto;
     padding: 0 25px;
-    text-align: left; /* Reading long letters is easier left-aligned */
+    text-align: left;
 }
 
 /* SECTIONS */
@@ -108,7 +108,7 @@ h1 {
     width: 85%;
     max-width: 400px;
     margin: auto;
-    height: 500px; /* Set a height so it doesn't jump */
+    height: 500px;
     display: flex;
     align-items: center;
 }
@@ -197,8 +197,8 @@ h1 {
 
 <div id="secret" onclick="secretMsg()">tap me</div>
 
-<audio id="music" loop>
-    <source src="music.mp3" type="audio/mp3">
+<audio id="bg-music" loop>
+    <source src="Tum Ho Toh Movie Saiyaara.m4a" type="audio/mp4">
 </audio>
 
 <audio id="voice">
@@ -208,7 +208,6 @@ h1 {
 </div>
 
 <script>
-/* MESSAGE TEXT */
 const msg = `A VERYY VERYY HAPPY HAPPYY BIRTHDAY SAKSHEE!!!💕✨
 
 May this year be full of happiness, caring, love and immense blessings!🫶🏻
@@ -281,6 +280,14 @@ LOVEEEE YOUUUUUUUUUU!!!💗💗💗💗💗💗🫂🫂🫂
                        -Your Alien
                        -Your Senior🤧`;
 
+/* MUSIC FUNCTION */
+function playMusic() {
+    const music = document.getElementById("bg-music");
+    music.play().catch(error => {
+        console.log("Music play blocked by browser. Interaction required.");
+    });
+}
+
 /* UNLOCK */
 function unlock() {
     if(document.getElementById("pass").value.toUpperCase() === "LOVE") {
@@ -288,15 +295,14 @@ function unlock() {
         setTimeout(()=>{
             document.getElementById("lock").style.display="none";
             document.getElementById("main").style.display="block";
-            // Start components
+            
+            // Start everything
+            playMusic();
+            document.getElementById("voice").play().catch(e => {});
             typeText();
             slide();
             hearts();
         },1000);
-
-        // Music play (Note: Browsers might block this unless the user interacted)
-        document.getElementById("music").play().catch(e => console.log("Music blocked"));
-        document.getElementById("voice").play().catch(e => console.log("Voice blocked"));
     } else {
         alert("Wrong Password! Try again ❤️");
     }
@@ -308,7 +314,6 @@ function typeText(){
     if(n < msg.length){
         document.getElementById("text").innerHTML += msg.charAt(n);
         n++;
-        // Adjust typing speed here (lower = faster)
         setTimeout(typeText, 35);
     }
 }
@@ -325,7 +330,7 @@ function slide(){
     setTimeout(slide, 3000);
 }
 
-/* FLOATING HEARTS */
+/* HEARTS */
 function hearts(){
     setInterval(()=>{
         let h = document.createElement("div");
@@ -342,7 +347,7 @@ function secretMsg(){
     alert("No matter what… I’m not going anywhere.");
 }
 
-/* SCROLL ANIMATION */
+/* SCROLL */
 window.addEventListener("scroll",()=>{
     document.querySelectorAll(".section").forEach(sec=>{
         let pos = sec.getBoundingClientRect().top;
@@ -350,7 +355,7 @@ window.addEventListener("scroll",()=>{
     });
 });
 
-/* STAR BACKGROUND */
+/* STARS */
 let canvas = document.getElementById("stars");
 let ctx = canvas.getContext("2d");
 function resize() {
@@ -364,7 +369,7 @@ let starArray = Array(150).fill().map(()=>({
     x: Math.random() * canvas.width,
     y: Math.random() * canvas.height,
     r: Math.random() * 1.5,
-    o: Math.random() // opacity for twinkling
+    o: Math.random()
 }));
 
 function draw(){
