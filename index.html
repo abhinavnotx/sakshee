@@ -361,17 +361,19 @@ function startCelebration() {
     }, 10000);
 }
 
-// Typing
+// Typing Logic - Slower Speed
 let n=0;
 function typeText(){
     if(n < msg.length){
         document.getElementById("text").innerHTML += msg.charAt(n);
         n++;
-        setTimeout(typeText, 60);
+        // THIS IS THE LINE (Line 272)
+        setTimeout(typeText, 60); 
     } else {
         document.getElementById("voice").play();
     }
 }
+    
 
 // Hearts
 function startHearts(){
